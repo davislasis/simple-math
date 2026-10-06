@@ -1,9 +1,10 @@
 <?php
 class App
 {
+    protected array $operations = ['+', '-', '*'];
     protected int $calculations = 0;
-
     protected array $lines = [];
+    protected array $notifications = [];
 
     public function init(): self
     {
@@ -16,6 +17,7 @@ class App
         // reset variables
         $this->setCalculations();
         $this->setLines();
+        $this->setNotifications();
 
         $lines = preg_split('/\R/', trim($input));
 
@@ -62,7 +64,7 @@ class App
 
     protected function isValidLine(string $line): bool
     {
-        return preg_match('/^\d+[+\-*]\d+$/', $line) === 1;
+        return preg_match('/^\d+(\D)\d+$/', $line) === 1;
     }
 
     /**
@@ -110,28 +112,76 @@ class App
 
     public function getPreparedLine(int $key = 0): ?array
     {
+        $output = [];
+
         $line = $this->getLine($key);
 
         if (!empty($line)) {
-            return $this->splitLine($line);
+            $parts = $this->splitLine($line);
+
+            if (!in_array($parts['action'], $this->operations, true)) {
+                $parts['valid'] = false;
+            }
+
+            $output = $parts;
         }
 
-        return [];
+        return $output;
     }
 
     protected function splitLine(string $line): array
     {
-        preg_match('/^(\d+)([+\-*])(\d+)$/', $line, $matches);
+        preg_match('/^(\d+)(\D)(\d+)$/', $line, $matches);
 
         return [
             'a' => $matches[1],
             'b' => $matches[3],
             'action' => $matches[2],
+            'valid' => true,
         ];
     }
 
     public function invalidInput(): bool
     {
         return $this->calculations !== count($this->lines);
+    }
+
+    /**
+     * @param array $notifications
+     * @return App
+     */
+    public function setNotifications(array $notifications = []): self
+    {
+        $this->notifications = $notifications;
+
+        return $this;
+    }
+
+    /**
+     * @param string $type
+     * @param string $message
+     * @return App
+     */
+    public function addNotification(string $type, string $message): self
+    {
+        $this->notifications[] = [
+            'type' => $type,
+            'message' => $message,
+        ];
+
+        return $this;
+    }
+
+    public function hasNotifications(): bool
+    {
+        return count($this->notifications) > 0;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNotifications(): array
+    {
+        return $this->notifications;
     }
 }

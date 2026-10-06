@@ -2,32 +2,33 @@
 require_once __DIR__ . '/classes/App.php';
 
 $output = '';
-$notifications = [];
 
 $app = new App();
 $app->init();
 
 if ($app->invalidInput()) {
-    $notifications[] = [
-        'type' => 'danger',
-        'message' => 'Input defined amount does not match number of lines or any line formatting is wrong!',
-    ];
+    $app->addNotification('danger', 'Input defined amount does not match number of lines!');
 }
 
-if (empty($notifications)) {
+if (!$app->hasNotifications()) {
     // no initial APP errors, we can move on to APP logic and calculations
 
     for ($x = 0; $x < $app->getCalculations(); $x++) {
         $line = $app->getPreparedLine($x);
 
-        if (!empty($line['a']) && !empty($line['b']) && !empty($line['action'])) {
+        if (!empty($line['valid'])) {
             // Calculation logic will go here.
+
+            // action / calculation switcher
+
+        } else {
+            $app->addNotification('warning', 'Invalid line data: #' . $x.' ::: '.$app->getLine($x));
         }
     }
 }
 
-if (!empty($notifications)) {
-    foreach ($notifications as $notification) {
+if ($app->hasNotifications()) {
+    foreach ($app->getNotifications() as $notification) {
         echo '['.strtoupper($notification['type']).'] '.$notification['message'].PHP_EOL;
     }
 }
