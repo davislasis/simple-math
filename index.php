@@ -1,5 +1,7 @@
 <?php
 // initial loader
+require_once __DIR__ . '/functions/Helpers.php';
+
 require_once __DIR__ . '/classes/App.php';
 require_once __DIR__ . '/classes/Calculation.php';
 

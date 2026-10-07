@@ -1,5 +1,7 @@
 # Simple Arithmetics
 
+<https://www.spoj.com/problems/ARITH/>
+
 One part of the new WAP portal is also a calculator computing expressions with very long numbers. 
 To make the output look better, the result is formated the same way as is it usually used with manual calculations.
 
@@ -88,3 +90,26 @@ Print one blank line after each test case, including the last one.
 
 - ### Web Browser
     not using STDIN, will auto load input.txt
+
+# Tests
+
+- ### CMD / BASH / CLI (using STDIN)
+
+  ```
+  php tests/run.php < input.txt
+  
+  [PASS] 12345+67890=80235
+  [PASS] 324-111=213
+  [PASS] 325*4405=1431625
+  [FAIL] 325^4405
+  [PASS] 1234*4=4936
+  [PASS] 1-1=0
+  [PASS] 1*1=1
+  [PASS] 1+1=2
+  
+  Tests passed: 7/8
+  ```
+
+- ### test / dump variables or investigate raw data. Use helper methods:
+  - d($variable);       // dump data
+  - dd($variable);      // dump and die data - stop code execute with exit()

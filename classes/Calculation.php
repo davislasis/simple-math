@@ -144,14 +144,12 @@ class Calculation
     private function formatMultiply(string $a, string $b, string $result): string
     {
         $width = $this->getWidth($a, $b, $result);
-        $lineWidth = max(strlen($a), strlen($b) + 1);
 
         $output = str_pad($a, $width, ' ', STR_PAD_LEFT) . PHP_EOL;
         $output .= str_pad('*' . $b, $width, ' ', STR_PAD_LEFT) . PHP_EOL;
 
         if (strlen($b) === 1) {
             // single digit has no partial
-
             $output .= str_repeat($this->separator, $width) . PHP_EOL;
             $output .= str_pad($result, $width, ' ', STR_PAD_LEFT) . PHP_EOL;
 
@@ -185,8 +183,4 @@ class Calculation
         return $output;
     }
 
-    public function doTest(string $type, array $line, int $calculated, int $expected): void
-    {
-
-    }
 }
