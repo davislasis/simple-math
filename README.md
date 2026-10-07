@@ -83,6 +83,8 @@ Print one blank line after each test case, including the last one.
 ```
 
 # Usage
+- ### PHP 8.0+ 
+  Code uses match expression.
 
 - ### CMD / BASH / CLI (using STDIN)
 
