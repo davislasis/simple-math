@@ -80,3 +80,11 @@ Print one blank line after each test case, including the last one.
 4936
 ```
 
+# Usage
+
+- ### CMD / BASH / CLI (using STDIN)
+
+    ```php index.php < input.txt```
+
+- ### Web Browser
+    not using STDIN, will auto load input.txt
